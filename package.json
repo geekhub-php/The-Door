@@ -1,0 +1,26 @@
+{
+  "name": "geekhub-the-door",
+  "version": "0.0.1",
+  "description": "GeehHub door open project",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "swagger-ui": "^2.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geekhub-php/The-Door.git"
+  },
+  "author": "GeekHub Foundation, GeekLabs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geekhub-php/The-Door/issues"
+  },
+  "homepage": "https://github.com/geekhub-php/The-Door#readme"
+}

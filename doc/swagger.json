@@ -1,0 +1,44 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "The GeekHub Door"
+    },
+    "paths": {
+        "/users": {
+            "get": {
+                "description": "Return list of users\nthat has access to the GeekHub Door\n",
+                "parameters": [
+                    {
+                        "name": "api_key",
+                        "in": "query",
+                        "description": "Unique api key",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "title": "ArrayOfUserDevices",
+                            "type": "array",
+                            "items": {
+                                "title": "Device",
+                                "type": "object",
+                                "properties": {
+                                    "mac": {
+                                        "type": "string"
+                                    },
+                                    "ukey": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

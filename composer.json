@@ -1,0 +1,18 @@
+{
+    "name": "geekhub-php/the-door",
+    "description": "GeehHub door open project",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "GeekHub Foundation",
+          "email": "info@geekhub.ck.ua"
+        },
+        {
+          "name": "Serhii Polishchuk",
+          "email": "spolischook@gmail.com"
+        }
+    ],
+    "require": {
+        "silex/silex": "~1.2"
+    }
+}
