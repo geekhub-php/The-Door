@@ -2,17 +2,41 @@
     "swagger": "2.0",
     "info": {
         "version": "0.0.1",
-        "title": "The GeekHub Door"
+        "title": "The GeekHub Door",
+        "contact": {
+            "name": "info@geekhub.ck.ua"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "api.the-door.pp.ua",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "name": "api_key",
+            "in": "header"
+        }
     },
     "paths": {
         "/users": {
             "get": {
                 "description": "Return list of users\nthat has access to the GeekHub Door\n",
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
                 "parameters": [
                     {
+                        "in": "header",
                         "name": "api_key",
-                        "in": "query",
-                        "description": "Unique api key",
+                        "description": "",
                         "required": true,
                         "type": "string"
                     }
