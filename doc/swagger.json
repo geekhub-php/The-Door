@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "0.0.1",
+        "version": "0.0.2",
         "title": "The GeekHub Door",
         "contact": {
             "name": "info@geekhub.ck.ua"
@@ -24,9 +24,9 @@
         }
     },
     "paths": {
-        "/users": {
+        "/status": {
             "get": {
-                "description": "Return list of users\nthat has access to the GeekHub Door\n",
+                "description": "The current db status",
                 "security": [
                     {
                         "api_key": []
@@ -43,23 +43,195 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful response",
+                        "description": "OK",
                         "schema": {
-                            "title": "ArrayOfUserDevices",
-                            "type": "array",
-                            "items": {
-                                "title": "Device",
-                                "type": "object",
-                                "properties": {
-                                    "mac": {
-                                        "type": "string"
-                                    },
-                                    "ukey": {
-                                        "type": "boolean"
+                            "type": "object",
+                            "required": [
+                                "timestamp",
+                                "db_update",
+                                "open",
+                                "lock"
+                            ],
+                            "properties": {
+                                "timestamp": {
+                                    "type": "integer",
+                                    "format": "int12",
+                                    "description": "Unix timestamp",
+                                    "example": 1482868050
+                                },
+                                "db_update": {
+                                    "type": "integer",
+                                    "format": "int12",
+                                    "description": "Unix timestamp",
+                                    "example": 1482868050
+                                },
+                                "open": {
+                                    "type": "integer",
+                                    "format": "int12",
+                                    "description": "Unix timestamp",
+                                    "example": 1482868050
+                                },
+                                "lock": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "Return list of users\nthat has access to the GeekHub Door\n",
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "api_key",
+                        "description": "",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "excludes the number of first set of records",
+                        "required": false,
+                        "default": 0,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "query",
+                        "name": "length",
+                        "description": "number of records",
+                        "required": false,
+                        "default": 10,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "users",
+                                "length",
+                                "offset",
+                                "total"
+                            ],
+                            "properties": {
+                                "users": {
+                                    "type": "object",
+                                    "required": [
+                                        "key"
+                                    ],
+                                    "properties": {
+                                        "mac": {
+                                            "type": "string",
+                                            "example": "10-B4-B1-0C-AA-4C"
+                                        },
+                                        "key": {
+                                            "type": "string",
+                                            "example": "ZHORB39mUQwqWDRL9vGl"
+                                        }
+                                    }
+                                },
+                                "length": {
+                                    "type": "integer",
+                                    "description": "number of records",
+                                    "example": 5
+                                },
+                                "offset": {
+                                    "type": "integer",
+                                    "description": "number of first records that was excluded",
+                                    "example": 10
+                                },
+                                "total": {
+                                    "type": "integer",
+                                    "description": "total number of records in database",
+                                    "example": 28
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/access-log": {
+            "post": {
+                "description": "Save log to server",
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "api_key",
+                        "description": "",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Updated user object",
+                        "required": false,
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "queue"
+                            ],
+                            "properties": {
+                                "queue": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "mac",
+                                            "key",
+                                            "timestamp"
+                                        ],
+                                        "properties": {
+                                            "mac": {
+                                                "type": "string",
+                                                "example": "10-B4-B1-0C-AA-4C"
+                                            },
+                                            "key": {
+                                                "type": "string",
+                                                "example": "ZHORB39mUQwqWDRL9vGl"
+                                            },
+                                            "timestamp": {
+                                                "type": "integer",
+                                                "format": "int12",
+                                                "description": "Unix timestamp",
+                                                "example": 1482868050
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             }
