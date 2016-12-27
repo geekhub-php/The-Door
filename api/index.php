@@ -21,5 +21,10 @@ $app->GET('/users', function(Application $app, Request $request) {
         ['D1-70-2D-EE-7E-DC', 'q9GsEGyZJs2FQ51RhUGa'],
         ['E3-AD-E0-81-23-89', 'kzSlbyqQ6WtpDHYUJ5PT'],
     ]);
-    });
+});
+
+$app->POST('users/{id}', function (Application $app, Request $request, $id) {
+
+    return new JsonResponse(['user' => $id], 201, ['Access-Control-Allow-Origin' => '*']);
+});
 $app->run();
