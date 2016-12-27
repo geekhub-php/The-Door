@@ -6,10 +6,13 @@ const DEMO_API_KEY = '123456';
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Constraints as Assert;
 use Silex\Application;
 
 $app = new Silex\Application();
+$app['debug'] = true;
 
+$app->register(new Silex\Provider\ValidatorServiceProvider());
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver'   => 'pdo_sqlite',
@@ -65,7 +68,35 @@ $app->get('/users', function(Application $app, Request $request) {
 });
 
 $app->post('/access-log', function(Application $app, Request $request) {
+    $access = json_decode($request->getContent(), true);
 
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return new JsonResponse(['errors' => [
+            'http_body' => 'invalid JSON',
+        ]], 400);
+    }
+
+    $accessLogConstraint = new Assert\Collection([
+        'queue' => new Assert\All(
+            new Assert\Collection([
+                'mac' => [new Assert\NotBlank(), new Assert\Type('string')],
+                'key' => [new Assert\NotBlank(), new Assert\Type('string')],
+                'timestamp' => [new Assert\NotBlank(), new Assert\Type('integer')],
+            ])
+        ),
+    ]);
+
+    $errors = $app['validator']->validate($access, $accessLogConstraint);
+
+    if (count($errors) > 0) {
+        $response = [];
+        /** @var \Symfony\Component\Validator\ConstraintViolationInterface $error */
+        foreach ($errors as $error) {
+            $response['errors'] = [$error->getPropertyPath() => $error->getMessage()];
+        }
+
+        return new JsonResponse($response, 400);
+    }
 
     return new Response(null, 201, ['Access-Control-Allow-Origin' => '*']);
 });
