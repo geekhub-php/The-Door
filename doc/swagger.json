@@ -17,9 +17,9 @@
         "http"
     ],
     "securityDefinitions": {
-        "api_key": {
+        "api-key": {
             "type": "apiKey",
-            "name": "api_key",
+            "name": "api-key",
             "in": "header"
         }
     },
@@ -29,13 +29,13 @@
                 "description": "The current db status",
                 "security": [
                     {
-                        "api_key": []
+                        "api-key": []
                     }
                 ],
                 "parameters": [
                     {
                         "in": "header",
-                        "name": "api_key",
+                        "name": "api-key",
                         "description": "",
                         "required": true,
                         "type": "string"
@@ -88,13 +88,13 @@
                 "description": "Return list of users\nthat has access to the GeekHub Door\n",
                 "security": [
                     {
-                        "api_key": []
+                        "api-key": []
                     }
                 ],
                 "parameters": [
                     {
                         "in": "header",
-                        "name": "api_key",
+                        "name": "api-key",
                         "description": "",
                         "required": true,
                         "type": "string"
@@ -173,13 +173,13 @@
                 "description": "Save log to server",
                 "security": [
                     {
-                        "api_key": []
+                        "api-key": []
                     }
                 ],
                 "parameters": [
                     {
                         "in": "header",
-                        "name": "api_key",
+                        "name": "api-key",
                         "description": "",
                         "required": true,
                         "type": "string"

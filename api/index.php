@@ -18,8 +18,8 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
 ));
 
 $app->before(function (Request $request, Application $app) {
-    $api_key = $request->headers->get('api_key');
-    if ($api_key !== DEMO_API_KEY) {
+    $apiKey = $request->headers->get('api-key');
+    if ($apiKey !== DEMO_API_KEY) {
         return new Response(null, 403);
     }
 });
