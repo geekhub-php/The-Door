@@ -29,8 +29,8 @@ $app->before(function (Request $request, Application $app) {
 
 
 $app->get('/users', function(Application $app, Request $request) {
-    $offset = $request->get('offset');
-    $length = $request->get('length');
+    $offset = $request->get('offset', 0);
+    $length = $request->get('length', 10);
 
     $users['users'] = [
         ['mac' => '90-E6-BA-EE-40-B1', 'key' => '8TYF3VmStnMy'],
